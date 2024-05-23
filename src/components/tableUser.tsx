@@ -32,7 +32,7 @@ interface TableProps {
   isAddPage?: boolean;
   isNoDefaultAction?: boolean;
   children?: any;
-  onDelete?: (id: number) => void;
+  onDelete?: (id_user: number) => void; // Update id_produk to id_user
 }
 
 const CustomTable: React.FC<TableProps> = ({
@@ -114,7 +114,7 @@ const CustomTable: React.FC<TableProps> = ({
                       </div>
                       <div
                         className="rounded-md bg-red-600 cursor-pointer p-2"
-                        onClick={() => onDelete && onDelete(row.id_produk)}
+                        onClick={() => onDelete && onDelete(row.id_user)} // Update id_produk to id_user
                       >
                         <MdDelete className="text-white" />
                       </div>

@@ -43,6 +43,50 @@ const DaftarUser: NextPage = () => {
     fetchUsers();
   }, [toast]);
 
+  const handleDelete = async (id_user: number) => {
+    try {
+      const response = await fetch(
+        "http://localhost/backend-penjualan/UserAPI.php",
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id_user }),
+        }
+      );
+
+      const data = await response.json();
+      if (response.ok && data.message) {
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id_user));
+        toast({
+          title: "Success",
+          description: "User deleted successfully",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: data.error || "Failed to delete user",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      toast({
+        title: "Error",
+        description: "Failed to delete user",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
+
   return (
     <div className="w-full">
       <CustomTable
@@ -51,6 +95,7 @@ const DaftarUser: NextPage = () => {
         title="Daftar User"
         addTitle="+ Tambah User"
         isAddPage
+        onDelete={handleDelete}
       />
     </div>
   );

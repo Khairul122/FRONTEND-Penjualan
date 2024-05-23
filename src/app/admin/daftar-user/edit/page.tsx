@@ -11,12 +11,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface User {
-  id: number;
+  id_user: number;
   nama_user: string;
   email: string;
   password: string;
   alamat: string;
   nomor_telp: string;
+  level: number; // Menambahkan level ke tipe data User
 }
 
 const validationSchema = Yup.object({
@@ -49,7 +50,7 @@ const EditUser: NextPage = () => {
         const data = await response.json();
         console.log("Fetched user data:", data); // Log data yang diambil
         if (data && data.length > 0) {
-          setUser(data[0]); // Mengasumsikan API mengembalikan array user dan kita memerlukan yang pertama
+          setUser({ ...data[0], level: 2 }); // Mengasumsikan API mengembalikan array user dan kita memerlukan yang pertama
         } else {
           setUser(null);
         }
@@ -77,13 +78,13 @@ const EditUser: NextPage = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            id_user: user.id,
+            id_user: user.id_user, // Menggunakan id_user
             nama_user: values.nama_user,
             email: values.email,
             password: values.password,
             alamat: values.alamat,
             nomor_telp: values.nomor_telp,
-            level: 2, // Menambahkan kolom level dengan nilai 2
+            level: values.level, // Menggunakan level dari formik values
           }),
         }
       );
