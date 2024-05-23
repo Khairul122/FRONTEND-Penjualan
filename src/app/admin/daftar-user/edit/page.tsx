@@ -83,12 +83,13 @@ const EditUser: NextPage = () => {
             password: values.password,
             alamat: values.alamat,
             nomor_telp: values.nomor_telp,
+            level: 2, // Menambahkan kolom level dengan nilai 2
           }),
         }
       );
 
       const data = await response.json();
-      if (response.ok) {
+      if (response.ok && data.message) {
         console.log("Update successful:", data.message); // Log respons dari backend
         toast.success("User updated successfully");
       } else {
