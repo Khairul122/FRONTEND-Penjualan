@@ -1,9 +1,10 @@
 export const daftarProduk = {
   columns: [
-    { key: 'id_produk', label: 'ID' },
+    { key: 'nomor_urut', label: 'No' }, // Menggunakan nomor urut
     { key: 'nama_produk', label: 'Nama Produk' },
+    { key: 'gambar_produk', label: 'Gambar Produk' },
     { key: 'merk_produk', label: 'Merk' },
-    { key: 'harga', label: 'Harga' },
-    { key: 'stok', label: 'Stok' },
+    { key: 'harga_produk', label: 'Harga' },
+    { key: 'stok_produk', label: 'Stok' },
   ],
 };

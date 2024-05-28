@@ -24,15 +24,15 @@ export default function Home() {
     setSubmitting(true);
     try {
       const response = await fetch(
-        "http://localhost/backend-penjualan/UserAPI.php",
+        "http://localhost/backend-penjualan/AdminLoginAPI.php/login",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: values.email,
-            password: values.password,
+            email_admin: values.email,
+            password_admin: values.password,
           }),
         }
       );
@@ -40,19 +40,14 @@ export default function Home() {
       const data = await response.json();
 
       if (response.ok) {
-        if (data.message === "Login successful for admin") {
+        if (data.message === "Login successful") {
           router.replace("/admin/daftar-produk");
           toast.success("Login Berhasil");
-        } else if (data.message.includes("Login successful for")) {
-          toast.success(data.message);
-          router.replace("/user/dashboard"); // Redirect to user dashboard
         } else {
-          toast.error(
-            data.message || "Login Gagal"
-          );
+          toast.error(data.message || "Login Gagal");
         }
       } else {
-        toast.error(data.error || "Email atau password tidak valid");
+        toast.error(data.message || "Email atau password tidak valid");
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -117,11 +112,11 @@ export default function Home() {
 
       <div className="absolute top-5 right-5 rounded-lg bg-primary p-2 px-5">
         <h1 className="text-white font-mono font-bold text-lg">CREDENTIALS</h1>
-        <p className="text-white font-mono text-sm">Email : admin</p>
-        <p className="text-white font-mono text-sm">Password : sri sutriyani</p>
+        <p className="text-white font-mono text-sm">Email : admin@gmail.com</p>
+        <p class="text-white font-mono text-sm">Password : 12345678</p>
       </div>
-      <div className="absolute bottom-5 left-5 rounded-lg bg-primary p-2 px-5">
-        <p className="text-white font-mono text-sm">© 2024 Sri Sutriyani</p>
+      <div class="absolute bottom-5 left-5 rounded-lg bg-primary p-2 px-5">
+        <p class="text-white font-mono text-sm">© 2024 Sri Sutriyani</p>
       </div>
       <ToastContainer />
     </main>

@@ -16,5 +16,9 @@ export const siteConfig = {
       label: 'riwayat transaksi',
       href: '/admin/riwayat-transaksi',
     },
+    {
+      label: 'Exit',
+      href: '/',
+    },
   ],
 };

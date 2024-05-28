@@ -3,7 +3,7 @@
 import { NextPage } from 'next';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Box, Heading, SimpleGrid } from '@chakra-ui/react';
+import { Box, Heading, SimpleGrid, Textarea } from '@chakra-ui/react';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import CustomInput from '@/components/Input';
@@ -15,10 +15,11 @@ const API_URL = "http://localhost/backend-penjualan/ProdukAPI.php"; // URL endpo
 const validationSchema = Yup.object({
   nama_produk: Yup.string().required('Nama Produk is required'),
   merk_produk: Yup.string().required('Merk is required'),
-  harga: Yup.number().required('Harga is required'),
-  stok: Yup.number()
+  harga_produk: Yup.number().required('Harga is required'),
+  stok_produk: Yup.number()
     .required('Stok is required')
     .min(0, 'Stok must be a positive number'),
+  deskripsi_produk: Yup.string().required('Deskripsi Produk is required'),
 });
 
 const EditProduk: NextPage = () => {
@@ -67,7 +68,7 @@ const EditProduk: NextPage = () => {
 
   const handleSubmit = async (values: typeof product) => {
     try {
-      const response = await fetch(API_URL, {
+      const response = await fetch(`${API_URL}?id_produk=${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -76,8 +77,9 @@ const EditProduk: NextPage = () => {
           id_produk: id,
           nama_produk: values.nama_produk,
           merk_produk: values.merk_produk,
-          harga: values.harga,
-          stok: values.stok,
+          harga_produk: values.harga_produk,
+          stok_produk: values.stok_produk,
+          deskripsi_produk: values.deskripsi_produk,
         }),
       });
 
@@ -140,21 +142,29 @@ const EditProduk: NextPage = () => {
                 />
                 <Field
                   as={CustomInput}
-                  id="harga"
-                  name="harga"
+                  id="harga_produk"
+                  name="harga_produk"
                   title="Harga"
                   type="number"
-                  isInvalid={touched.harga && !!errors.harga}
-                  errorMessage={errors.harga}
+                  isInvalid={touched.harga_produk && !!errors.harga_produk}
+                  errorMessage={errors.harga_produk}
                 />
                 <Field
                   as={CustomInput}
-                  id="stok"
-                  name="stok"
+                  id="stok_produk"
+                  name="stok_produk"
                   title="Stok"
                   type="number"
-                  isInvalid={touched.stok && !!errors.stok}
-                  errorMessage={errors.stok}
+                  isInvalid={touched.stok_produk && !!errors.stok_produk}
+                  errorMessage={errors.stok_produk}
+                />
+                <Field
+                  as={Textarea}
+                  id="deskripsi_produk"
+                  name="deskripsi_produk"
+                  placeholder="Deskripsi Produk"
+                  isInvalid={touched.deskripsi_produk && !!errors.deskripsi_produk}
+                  errorMessage={errors.deskripsi_produk}
                 />
               </SimpleGrid>
 

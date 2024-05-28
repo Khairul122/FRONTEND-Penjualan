@@ -7,6 +7,7 @@ import { daftarProduk } from "@/config/daftarProduk";
 import { useToast } from "@chakra-ui/react";
 
 const API_URL = "http://localhost/backend-penjualan/ProdukAPI.php";
+const BASE_IMAGE_URL = "http://localhost/backend-penjualan/gambar/";
 
 interface Product {
   id_produk: number;
@@ -14,6 +15,8 @@ interface Product {
   merk_produk: string;
   harga: number;
   stok: number;
+  gambar_produk: string; // Tambahkan properti ini
+  nomor_urut?: number; // Nomor urut untuk penampilan
 }
 
 interface Props {}
@@ -33,8 +36,26 @@ const Page: NextPage<Props> = ({}) => {
       if (!response.ok) {
         throw new Error("Failed to fetch data");
       }
-      const data = await response.json();
-      setProducts(data);
+      const data: Product[] = await response.json();
+
+      // Mengubah gambar_produk menjadi URL lengkap dan log ID serta nama file
+      const modifiedData = data.map(product => {
+        const fileName = product.gambar_produk.split('/').pop();
+        const fullImageUrl = `${BASE_IMAGE_URL}${fileName}`;
+        console.log(`ID: ${product.id_produk}, Gambar: ${fileName}`);
+        return { ...product, gambar_produk: fullImageUrl };
+      });
+
+      // Mengurutkan data berdasarkan id_produk secara ascending
+      modifiedData.sort((a, b) => a.id_produk - b.id_produk);
+
+      // Menambahkan nomor urut
+      const numberedData = modifiedData.map((product, index) => ({
+        ...product,
+        nomor_urut: index + 1,
+      }));
+
+      setProducts(numberedData);
     } catch (error) {
       console.error("Error fetching data:", error);
       toast({

@@ -98,7 +98,13 @@ const CustomTable: React.FC<TableProps> = ({
               {currentItems.map((row, index) => (
                 <Tr key={index}>
                   {columns.map((column) => (
-                    <Td key={column.key}>{row[column.key]}</Td>
+                    <Td key={column.key}>
+                      {column.key === 'gambar_produk' ? (
+                        <img src={row[column.key]} alt="Gambar Produk" width="70px" />
+                      ) : (
+                        row[column.key]
+                      )}
+                    </Td>
                   ))}
                   {isNoDefaultAction ? undefined : (
                     <Td className="flex items-center space-x-3">
